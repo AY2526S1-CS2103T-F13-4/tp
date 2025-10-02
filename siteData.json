@@ -7,7 +7,7 @@
       "headings": {
         "about-us": "About Us",
         "project-team": "Project team",
-        "john-doe": "John Doe",
+        "aloysius-goo": "Aloysius Goo",
         "jane-doe": "Jane Doe",
         "johnny-doe": "Johnny Doe",
         "chua-che-khai": "Chua Che Khai",
@@ -132,6 +132,14 @@
       "title": "",
       "headings": {
         "addressbook-level-3": "AddressBook Level-3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/aloysiusgoo.md",
+      "title": "Aloysius Goo's Project Portfolio Page",
+      "headings": {
+        "project-greybook": "Project: GreyBook"
       },
       "headingKeywords": {}
     },
