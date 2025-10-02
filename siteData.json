@@ -9,8 +9,8 @@
         "project-team": "Project team",
         "aloysius-goo": "Aloysius Goo",
         "jane-doe": "Jane Doe",
-        "johnny-doe": "Johnny Doe",
         "chua-che-khai": "Chua Che Khai",
+        "wu-yuewei": "Wu Yuewei",
         "lyris-ng": "Lyris Ng"
       },
       "headingKeywords": {}
@@ -164,6 +164,14 @@
       "title": "Lyris Ng's Project Portfolio Page",
       "headings": {
         "project-greybook": "Project: GreyBook"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/yuewei.md",
+      "title": "Yuewei's Project Portfolio Page",
+      "headings": {
+        "project-greybook": "Project: Greybook"
       },
       "headingKeywords": {}
     }
