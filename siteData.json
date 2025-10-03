@@ -8,7 +8,6 @@
         "about-us": "About Us",
         "project-team": "Project team",
         "aloysius-goo": "Aloysius Goo",
-        "jane-doe": "Jane Doe",
         "chua-che-khai": "Chua Che Khai",
         "wu-yuewei": "Wu Yuewei",
         "lyris-ng": "Lyris Ng",
@@ -147,14 +146,6 @@
     {
       "src": "team/chekhai.md",
       "title": "Che Khai's Project Portfolio Page",
-      "headings": {
-        "project-addressbook-level-3": "Project: AddressBook Level 3"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "team/johndoe.md",
-      "title": "John Doe's Project Portfolio Page",
       "headings": {
         "project-addressbook-level-3": "Project: AddressBook Level 3"
       },
