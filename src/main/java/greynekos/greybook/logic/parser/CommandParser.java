@@ -111,14 +111,10 @@ public class CommandParser {
                 result.add(option.parseOptionArgument(argMultimap.getPreamble()));
             } else if (option instanceof OptionalSinglePreambleOption) {
                 String preamble = argMultimap.getPreamble();
-                System.out.println("Preamble: '" + preamble + "'");
                 if (!preamble.isEmpty()) {
                     try {
-                        System.out.println("Trying to parse preamble option: " + preamble);
-                        System.out.println("Using option: " + option.getClass().getSimpleName());
                         result.add(option.parseOptionArgument(preamble));
                     } catch (ParseException e) {
-                        System.out.println("Failed to parse preamble option: " + preamble);
                         // Ignore empty preamble options
                     }
                 }
@@ -156,7 +152,6 @@ public class CommandParser {
                 .filter(list -> list != null && !list.isEmpty() && list.stream().anyMatch(Objects::nonNull)).count();
 
         if (identifierCount != 1) {
-            System.out.println("Identifier count: " + identifierCount);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, messageUsage));
         }
     }
