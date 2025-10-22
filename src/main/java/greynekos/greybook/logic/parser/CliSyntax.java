@@ -12,9 +12,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_EMAIL = new Prefix("e/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
     public static final Prefix PREFIX_STUDENTID = new Prefix("i/");
-    public static final Prefix PREFIX_PRESENT = new Prefix("-p");
-    public static final Prefix PREFIX_ABSENT = new Prefix("-a");
-    public static final Prefix PREFIX_LATE = new Prefix("-l");
-    public static final Prefix PREFIX_EXCUSED = new Prefix("-e");
+    public static final Prefix PREFIX_PRESENT = new Prefix("p/");
+    public static final Prefix PREFIX_ABSENT = new Prefix("a/");
+    public static final Prefix PREFIX_LATE = new Prefix("l/");
+    public static final Prefix PREFIX_EXCUSED = new Prefix("e/");
     public static final Prefix PREFIX_EMPTY = new Prefix("");
 }

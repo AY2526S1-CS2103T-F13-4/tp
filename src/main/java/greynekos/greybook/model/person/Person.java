@@ -24,6 +24,7 @@ public class Person {
 
     // Data fields
     private final Set<Tag> tags = new HashSet<>();
+    private final AttendanceStatus attendanceStatus;
 
     /**
      * Every field must be present and not null.
@@ -35,6 +36,21 @@ public class Person {
         this.email = email;
         this.tags.addAll(tags);
         this.studentID = studentID;
+        this.attendanceStatus = new AttendanceStatus();
+    }
+
+    /**
+     * Constructs a Person.
+     */
+    public Person(Name name, Phone phone, Email email, StudentID studentID, Set<Tag> tags,
+            AttendanceStatus attendanceStatus) {
+        requireAllNonNull(name, phone, email, tags, studentID);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.tags.addAll(tags);
+        this.studentID = studentID;
+        this.attendanceStatus = attendanceStatus;
     }
 
     public Name getName() {
@@ -59,6 +75,10 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    public AttendanceStatus getAttendance() {
+        return this.attendanceStatus;
     }
 
     /**
@@ -96,13 +116,13 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, studentID, tags);
+        return Objects.hash(name, phone, email, studentID, tags, attendanceStatus);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).add("name", name).add("phone", phone).add("email", email)
-                .add("studentId", studentID).add("tags", tags).toString();
+                .add("studentId", studentID).add("tags", tags).add("attendanceStatus", attendanceStatus).toString();
     }
 
 }
