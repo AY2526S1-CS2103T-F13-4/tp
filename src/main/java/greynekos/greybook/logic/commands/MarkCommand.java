@@ -37,7 +37,7 @@ public class MarkCommand extends Command {
 
     /** Message shown when marking is successful */
     public static final String MESSAGE_MARK_PERSON_SUCCESS = "Marked %1$s's Attendance: %2$s";
-    
+
     /** Message shown when attendance flag is missing */
     public static final String MESSAGE_MISSING_ATTENDANCE_FLAG =
             "Missing attendance flag. Please provide a valid flag:\n\t" + PREFIX_PRESENT.getPrefix() + ": Present\n\t"
