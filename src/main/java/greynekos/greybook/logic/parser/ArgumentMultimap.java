@@ -81,6 +81,18 @@ public class ArgumentMultimap {
         }
     }
 
+    /**
+     * Checks that at most one of the specified prefixes is present in the
+     * arguments.
+     * <p>
+     * This method is useful for validating mutually exclusive flags, where only one
+     * prefix in a given group should appear in the input.
+     *
+     * @param prefixes
+     *            the prefixes that are mutually exclusive
+     * @throws ParseException
+     *             if more than one of the specified prefixes has been provided
+     */
     public void verifyNoMutuallyExclusivePrefixesFor(Prefix... prefixes) throws ParseException {
         Prefix[] mutuallyExclusivePrefixes = Stream.of(prefixes).distinct()
                 .filter(prefix -> argMultimap.containsKey(prefix) && argMultimap.get(prefix).size() > 1)

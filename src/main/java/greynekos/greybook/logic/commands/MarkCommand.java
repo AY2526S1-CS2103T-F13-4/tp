@@ -1,7 +1,5 @@
 package greynekos.greybook.logic.commands;
 
-import static greynekos.greybook.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-import static greynekos.greybook.logic.Messages.MESSAGE_MISSING_STUDENTID;
 import static greynekos.greybook.logic.parser.CliSyntax.PREFIX_ABSENT;
 import static greynekos.greybook.logic.parser.CliSyntax.PREFIX_EXCUSED;
 import static greynekos.greybook.logic.parser.CliSyntax.PREFIX_LATE;
@@ -9,9 +7,6 @@ import static greynekos.greybook.logic.parser.CliSyntax.PREFIX_PRESENT;
 import static greynekos.greybook.logic.parser.CliSyntax.PREFIX_STUDENTID;
 import static greynekos.greybook.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static java.util.Objects.requireNonNull;
-
-import java.util.List;
-import java.util.Optional;
 
 import greynekos.greybook.logic.Messages;
 import greynekos.greybook.logic.commands.exceptions.CommandException;
@@ -33,7 +28,6 @@ import greynekos.greybook.model.person.PersonIdentifier;
 public class MarkCommand extends Command {
 
     public static final String COMMAND_WORD = "mark";
-    private static final String PREFIX_GROUP_STRING = "ATTENDANCE";
 
     /** Message shown when marking is successful */
     public static final String MESSAGE_MARK_PERSON_SUCCESS = "Marked %1$s's Attendance: %2$s";
@@ -50,6 +44,8 @@ public class MarkCommand extends Command {
             + PREFIX_EXCUSED + " for Excused\n" + "Example: " + COMMAND_WORD + " 1 " + PREFIX_PRESENT + " OR "
             + COMMAND_WORD + " " + PREFIX_STUDENTID + "A0123456X " + PREFIX_ABSENT;
 
+    private static final String PREFIX_GROUP_STRING = "ATTENDANCE";
+
     /**
      * Mark Command Preamble and Prefix Options
      */
@@ -57,21 +53,25 @@ public class MarkCommand extends Command {
             SinglePreambleOption.of("INDEX or STUDENTID", ParserUtil::parsePersonIdentifier);
 
     private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> presentOption =
-            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_PRESENT, "Present", s -> AttendanceStatus.Status.PRESENT);
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_PRESENT, "Present",
+                    s -> AttendanceStatus.Status.PRESENT);
 
     private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> absentOption =
-            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_ABSENT, "Absent", s -> AttendanceStatus.Status.ABSENT);
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_ABSENT, "Absent",
+                    s -> AttendanceStatus.Status.ABSENT);
 
     private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> lateOption =
-            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_LATE, "Late", s -> AttendanceStatus.Status.LATE);
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_LATE, "Late",
+                    s -> AttendanceStatus.Status.LATE);
 
     private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> excusedOption =
-            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_EXCUSED, "Excused", s -> AttendanceStatus.Status.EXCUSED);
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_EXCUSED, "Excused",
+                    s -> AttendanceStatus.Status.EXCUSED);
 
     @Override
     public void addToParser(GreyBookParser parser) {
-        parser.newCommand(COMMAND_WORD, MESSAGE_USAGE, this)
-                .addOptions(identifierOption, presentOption, absentOption, lateOption, excusedOption);
+        parser.newCommand(COMMAND_WORD, MESSAGE_USAGE, this).addOptions(identifierOption, presentOption, absentOption,
+                lateOption, excusedOption);
     }
 
     @Override
@@ -97,7 +97,8 @@ public class MarkCommand extends Command {
     /**
      * Retrieves the attendance status specified by the prefix option.
      *
-     * @param arg parsed argument values
+     * @param arg
+     *            parsed argument values
      * @return the attendance status, or null if none provided
      */
     private AttendanceStatus.Status getAttendanceStatus(ArgumentParseResult arg) {
@@ -119,8 +120,10 @@ public class MarkCommand extends Command {
     /**
      * Creates a copy of the given person with the new attendance status.
      *
-     * @param personToEdit the original person
-     * @param attendanceStatus the new attendance status
+     * @param personToEdit
+     *            the original person
+     * @param attendanceStatus
+     *            the new attendance status
      * @return a new Person instance with updated attendance
      */
     private static Person createdMarkedPerson(Person personToEdit, AttendanceStatus.Status attendanceStatus) {

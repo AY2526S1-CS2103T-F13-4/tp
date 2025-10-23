@@ -33,10 +33,11 @@ public class Messages {
         return MESSAGE_DUPLICATE_FIELDS + String.join(" ", duplicateFields);
     }
 
-    public static String getErrorMessageForMutuallyExclusivePrefixes(Prefix ...mutuallyExclusivePrefixes) {
+    public static String getErrorMessageForMutuallyExclusivePrefixes(Prefix... mutuallyExclusivePrefixes) {
         assert mutuallyExclusivePrefixes.length > 0;
 
-        Set<String> mutuallyExclusiveFields = Stream.of(mutuallyExclusivePrefixes).map(Prefix::toString).collect(Collectors.toSet());
+        Set<String> mutuallyExclusiveFields =
+                Stream.of(mutuallyExclusivePrefixes).map(Prefix::toString).collect(Collectors.toSet());
 
         return MESSAGE_MUTUALLY_EXCLUSIVE_FIELDS + String.join(" ", mutuallyExclusiveFields);
     }

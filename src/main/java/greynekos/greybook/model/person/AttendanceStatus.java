@@ -32,7 +32,8 @@ public class AttendanceStatus {
     public final Status value;
 
     /**
-     * Constructs an {@code AttendanceStatus} with default value {@link Status#NONE}.
+     * Constructs an {@code AttendanceStatus} with default value
+     * {@link Status#NONE}.
      */
     public AttendanceStatus() {
         this.value = Status.NONE;
@@ -41,9 +42,12 @@ public class AttendanceStatus {
     /**
      * Constructs an {@code AttendanceStatus} with the given {@link Status}.
      *
-     * @param status A valid attendance status.
-     * @throws NullPointerException if {@code status} is null.
-     * @throws IllegalArgumentException if {@code status} is invalid.
+     * @param status
+     *            A valid attendance status.
+     * @throws NullPointerException
+     *             if {@code status} is null.
+     * @throws IllegalArgumentException
+     *             if {@code status} is invalid.
      */
     public AttendanceStatus(Status status) {
         requireNonNull(status);
@@ -54,9 +58,12 @@ public class AttendanceStatus {
     /**
      * Constructs an {@code AttendanceStatus} from a string.
      *
-     * @param statusString The string representation of the status.
-     * @throws NullPointerException if {@code statusString} is null.
-     * @throws IllegalArgumentException if {@code statusString} does not match any Status.
+     * @param statusString
+     *            The string representation of the status.
+     * @throws NullPointerException
+     *             if {@code statusString} is null.
+     * @throws IllegalArgumentException
+     *             if {@code statusString} does not match any Status.
      */
     public AttendanceStatus(String statusString) {
         requireNonNull(statusString);
@@ -66,7 +73,8 @@ public class AttendanceStatus {
     /**
      * Returns true if a given {@link Status} is valid.
      *
-     * @param testStatus The status to test.
+     * @param testStatus
+     *            The status to test.
      * @return true if valid, false otherwise.
      */
     public static boolean isValidStatus(Status testStatus) {
@@ -76,7 +84,8 @@ public class AttendanceStatus {
     /**
      * Returns true if a given string corresponds to a valid {@link Status}.
      *
-     * @param test The string to test.
+     * @param test
+     *            The string to test.
      * @return true if valid, false otherwise.
      */
     public static boolean isValidStatus(String test) {
@@ -94,9 +103,11 @@ public class AttendanceStatus {
     /**
      * Parses a string to its corresponding {@link Status}.
      *
-     * @param statusString The string to parse.
+     * @param statusString
+     *            The string to parse.
      * @return The corresponding {@link Status}.
-     * @throws IllegalArgumentException if no matching status is found.
+     * @throws IllegalArgumentException
+     *             if no matching status is found.
      */
     private static Status parseStatus(String statusString) {
         for (Status s : Status.values()) {
