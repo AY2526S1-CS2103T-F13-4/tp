@@ -50,9 +50,6 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane resultDisplayPlaceholder;
 
     @FXML
-    private StackPane resultDisplaySpacer;
-
-    @FXML
     private StackPane statusbarPlaceholder;
 
     @FXML
@@ -90,9 +87,6 @@ public class MainWindow extends UiPart<Stage> {
             }
         });
 
-        // Hide result display initially, show spacer
-        resultDisplayPlaceholder.setVisible(false);
-        resultDisplaySpacer.setVisible(true);
     }
 
     public Stage getPrimaryStage() {
@@ -205,13 +199,6 @@ public class MainWindow extends UiPart<Stage> {
         try {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
-
-            // Show result display after first command
-            if (!resultDisplayPlaceholder.isVisible()) {
-                resultDisplayPlaceholder.setVisible(true);
-                resultDisplaySpacer.setVisible(false);
-            }
-
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
@@ -225,13 +212,6 @@ public class MainWindow extends UiPart<Stage> {
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
-
-            // Show result display even for errors
-            if (!resultDisplayPlaceholder.isVisible()) {
-                resultDisplayPlaceholder.setVisible(true);
-                resultDisplaySpacer.setVisible(false);
-            }
-
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }

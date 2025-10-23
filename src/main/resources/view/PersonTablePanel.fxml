@@ -8,12 +8,12 @@
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <TableView fx:id="personTableView" VBox.vgrow="ALWAYS">
     <columns>
-      <TableColumn fx:id="indexColumn" text="Index" prefWidth="50" />
-      <TableColumn fx:id="nameColumn" text="Name" prefWidth="150" />
-      <TableColumn fx:id="studentIdColumn" text="StudentID" prefWidth="110" />
-      <TableColumn fx:id="emailColumn" text="Email" prefWidth="200" />
-      <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="100" />
-      <TableColumn fx:id="tagsColumn" text="Tags" prefWidth="150" />
+      <TableColumn fx:id="indexColumn" text="Index" prefWidth="100" />
+      <TableColumn fx:id="nameColumn" text="Name" />
+      <TableColumn fx:id="studentIdColumn" text="StudentID" />
+      <TableColumn fx:id="emailColumn" text="Email" />
+      <TableColumn fx:id="phoneColumn" text="Phone" />
+      <TableColumn fx:id="tagsColumn" text="Tags" />
       <TableColumn fx:id="attendanceStatusColumn" text="Attendance" />
     </columns>
   </TableView>

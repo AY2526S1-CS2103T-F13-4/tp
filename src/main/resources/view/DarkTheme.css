@@ -1,32 +1,32 @@
 .background {
-  -fx-background-color: #0a0e1a;
-  background-color: #0a0e1a; /* Used in the default.html file */
+  -fx-background-color: derive(#1d1d1d, 20%);
+  background-color: #383838; /* Used in the default.html file */
 }
 
 .label {
   -fx-font-size: 11pt;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-text-fill: #7d8594;
-  -fx-opacity: 1;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-text-fill: #555555;
+  -fx-opacity: 0.9;
 }
 
 .label-bright {
   -fx-font-size: 11pt;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-text-fill: #c9d1d9;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-text-fill: white;
   -fx-opacity: 1;
 }
 
 .label-header {
   -fx-font-size: 32pt;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-text-fill: #c9d1d9;
+  -fx-font-family: "Segoe UI Light";
+  -fx-text-fill: white;
   -fx-opacity: 1;
 }
 
 .text-field {
   -fx-font-size: 12pt;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
+  -fx-font-family: "Segoe UI Semibold";
 }
 
 .tab-pane {
@@ -39,18 +39,13 @@
   -fx-max-height: 0;
 }
 
-/* ========================================
-   TABLE VIEW - Terminal Style
-   ======================================== */
-
 .table-view {
-  -fx-base: #0a0e1a;
-  -fx-control-inner-background: #0d1117;
-  -fx-background-color: #0d1117;
+  -fx-base: #1d1d1d;
+  -fx-control-inner-background: #1d1d1d;
+  -fx-background-color: #1d1d1d;
   -fx-table-cell-border-color: transparent;
   -fx-table-header-border-color: transparent;
-  -fx-padding: 0;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
+  -fx-padding: 5;
 }
 
 .table-view .column-header-background {
@@ -59,68 +54,34 @@
 
 .table-view .column-header,
 .table-view .filler {
-  -fx-size: 40;
+  -fx-size: 35;
   -fx-border-width: 0 0 1 0;
   -fx-background-color: transparent;
-  -fx-border-color: transparent transparent #1a1f2e transparent;
-  -fx-border-insets: 0 0 0 0;
-  -fx-padding: 12 16 12 16;
+  -fx-border-color: transparent transparent derive(-fx-base, 80%) transparent;
+  -fx-border-insets: 0 10 1 0;
 }
 
 .table-view .column-header .label {
-  -fx-font-size: 11pt;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-text-fill: #7d8594;
+  -fx-font-size: 12pt;
+  -fx-font-family: "Segoe UI Light";
+  -fx-text-fill: white;
   -fx-alignment: center-left;
   -fx-opacity: 1;
 }
 
-.table-view .table-row-cell {
-  -fx-background-color: transparent;
-  -fx-border-color: transparent transparent #1a1f2e transparent;
-  -fx-border-width: 0 0 1 0;
-  -fx-padding: 12 0 12 0;
-}
-
-.table-view .table-row-cell:hover {
-  -fx-background-color: rgba(22, 27, 34, 0.5);
-}
-
-.table-view .table-row-cell:selected {
-  -fx-background-color: rgba(63, 185, 80, 0.08);
-  -fx-border-color: transparent transparent rgba(63, 185, 80, 0.3) transparent;
-}
-
-.table-view .table-cell {
-  -fx-font-family: "Monaco", "Menlo", "Consolas", "Courier New", monospace;
-  -fx-font-size: 13px;
-  -fx-text-fill: #c9d1d9;
-  -fx-padding: 8 16 8 16;
-  -fx-alignment: center-left;
-}
-
-.table-view .table-cell .text {
-  -fx-font-family: "Monaco", "Menlo", "Consolas", "Courier New", monospace;
-  -fx-font-smoothing-type: lcd;
-}
-
 .table-view:focused .table-row-cell:filled:focused:selected {
-  -fx-background-color: rgba(63, 185, 80, 0.12);
+  -fx-background-color: -fx-focus-color;
 }
-
-/* ========================================
-   SPLIT PANE & CONTAINERS
-   ======================================== */
 
 .split-pane:horizontal .split-pane-divider {
-  -fx-background-color: #1a1f2e;
-  -fx-border-color: transparent transparent transparent #1a1f2e;
+  -fx-background-color: derive(#1d1d1d, 20%);
+  -fx-border-color: transparent transparent transparent #4d4d4d;
 }
 
 .split-pane {
-  -fx-border-radius: 0;
-  -fx-border-width: 0;
-  -fx-background-color: #0a0e1a;
+  -fx-border-radius: 1;
+  -fx-border-width: 1;
+  -fx-background-color: derive(#1d1d1d, 20%);
 }
 
 .list-view {
@@ -157,54 +118,47 @@
 }
 
 .cell_big_label {
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
+  -fx-font-family: "Segoe UI Semibold";
   -fx-font-size: 16px;
-  -fx-text-fill: #c9d1d9;
+  -fx-text-fill: #010504;
 }
 
 .cell_small_label {
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
+  -fx-font-family: "Segoe UI";
   -fx-font-size: 13px;
-  -fx-text-fill: #7d8594;
+  -fx-text-fill: #010504;
 }
 
 .stack-pane {
-  -fx-background-color: transparent;
+  -fx-background-color: derive(#1d1d1d, 20%);
 }
 
 .pane-with-border {
-  -fx-background-color: transparent;
-  -fx-border-color: #1a1f2e;
+  -fx-background-color: derive(#1d1d1d, 20%);
+  -fx-border-color: derive(#1d1d1d, 10%);
   -fx-border-top-width: 1px;
 }
 
 .status-bar {
-  -fx-background-color: #0d1117;
-  -fx-border-color: transparent #1a1f2e transparent transparent;
-  -fx-border-width: 0 1 0 0;
+  -fx-background-color: derive(#1d1d1d, 30%);
 }
-
-/* ========================================
-   RESULT DISPLAY - Terminal Style
-   ======================================== */
 
 .result-display {
   -fx-background-color: transparent;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-font-size: 11pt;
-  -fx-text-fill: #3fb950;
+  -fx-font-family: "Segoe UI Light";
+  -fx-font-size: 13pt;
+  -fx-text-fill: white;
 }
 
 .result-display .label {
-  -fx-text-fill: #3fb950 !important;
+  -fx-text-fill: black !important;
 }
 
 .status-bar .label {
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-text-fill: #484f58;
-  -fx-padding: 4px 16px;
-  -fx-pref-height: 24px;
-  -fx-font-size: 10pt;
+  -fx-font-family: "Segoe UI Light";
+  -fx-text-fill: white;
+  -fx-padding: 4px;
+  -fx-pref-height: 30px;
 }
 
 .status-bar-with-border {
@@ -235,26 +189,15 @@
   -fx-text-fill: white;
 }
 
-/* ========================================
-   MENU BAR - Terminal Style
-   ======================================== */
-
 .menu-bar {
-  -fx-background-color: #161b22;
-  -fx-border-color: transparent transparent #1a1f2e transparent;
-  -fx-border-width: 0 0 1 0;
-  -fx-padding: 8 16;
+  -fx-background-color: derive(#1d1d1d, 20%);
 }
 
 .menu-bar .label {
-  -fx-font-size: 11pt;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-text-fill: #7d8594;
-  -fx-opacity: 1;
-}
-
-.menu-bar .label:hover {
-  -fx-text-fill: #58a6ff;
+  -fx-font-size: 14pt;
+  -fx-font-family: "Segoe UI Light";
+  -fx-text-fill: white;
+  -fx-opacity: 0.9;
 }
 
 .menu .left-container {
@@ -268,13 +211,13 @@
  */
 .button {
   -fx-padding: 5 22 5 22;
-  -fx-border-color: #484f58;
+  -fx-border-color: #e2e2e2;
   -fx-border-width: 2;
   -fx-background-radius: 0;
-  -fx-background-color: #0d1117;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
+  -fx-background-color: #1d1d1d;
+  -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
   -fx-font-size: 11pt;
-  -fx-text-fill: #c9d1d9;
+  -fx-text-fill: #d8d8d8;
   -fx-background-insets:
     0 0 0 0,
     0,
@@ -383,26 +326,15 @@
   -fx-text-fill: #f70d1a;
 }
 
-/* ========================================
-   COMMAND INPUT - Terminal Style
-   ======================================== */
-
 #commandTextField {
-  -fx-background-color: transparent, #0d1117, transparent, #0d1117;
+  -fx-background-color: transparent #383838 transparent #383838;
   -fx-background-insets: 0;
-  -fx-border-color: transparent transparent #1a1f2e transparent;
+  -fx-border-color: #383838 #383838 #ffffff #383838;
   -fx-border-insets: 0;
-  -fx-border-width: 1 0 0 0;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
-  -fx-font-size: 12pt;
-  -fx-text-fill: #c9d1d9;
-  -fx-padding: 12 16 12 16;
-  -fx-prompt-text-fill: #484f58;
-}
-
-#commandTextField:focused {
-  -fx-border-color: transparent transparent #3fb950 transparent;
-  -fx-background-color: transparent, #0d1117, transparent, #0d1117;
+  -fx-border-width: 1;
+  -fx-font-family: "Segoe UI Light";
+  -fx-font-size: 13pt;
+  -fx-text-fill: white;
 }
 
 #filterField,
@@ -416,23 +348,16 @@
   -fx-background-radius: 0;
 }
 
-/* ========================================
-   TAGS - Badge Style
-   ======================================== */
-
 #tags {
-  -fx-hgap: 4;
-  -fx-vgap: 4;
+  -fx-hgap: 7;
+  -fx-vgap: 3;
 }
 
 #tags .label {
-  -fx-text-fill: #3fb950;
-  -fx-background-color: rgba(63, 185, 80, 0.1);
-  -fx-padding: 4 12 4 12;
-  -fx-border-color: #3fb950;
-  -fx-border-width: 1;
-  -fx-border-radius: 12;
-  -fx-background-radius: 12;
-  -fx-font-size: 10pt;
-  -fx-font-family: "Consolas", "Monaco", "Courier New", monospace;
+  -fx-text-fill: white;
+  -fx-background-color: #3e7b91;
+  -fx-padding: 1 3 1 3;
+  -fx-border-radius: 2;
+  -fx-background-radius: 2;
+  -fx-font-size: 11;
 }

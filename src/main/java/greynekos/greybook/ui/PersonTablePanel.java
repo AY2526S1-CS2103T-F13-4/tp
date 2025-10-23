@@ -69,36 +69,8 @@ public class PersonTablePanel extends UiPart<Region> {
                 .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail().toString()));
         phoneColumn
                 .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhone().toString()));
-
-        // Custom cell factory for tags to display them as styled chips
-        tagsColumn.setCellFactory(col -> new TableCell<Person, String>() {
-            private final javafx.scene.layout.FlowPane flowPane = new javafx.scene.layout.FlowPane();
-
-            {
-                flowPane.setId("tags");
-                flowPane.setHgap(4);
-                flowPane.setVgap(4);
-            }
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null || item.isEmpty()) {
-                    setGraphic(null);
-                } else {
-                    flowPane.getChildren().clear();
-                    Person person = getTableView().getItems().get(getIndex());
-                    person.getTags().forEach(tag -> {
-                        javafx.scene.control.Label tagLabel = new javafx.scene.control.Label(tag.tagName);
-                        flowPane.getChildren().add(tagLabel);
-                    });
-                    flowPane.setPrefWrapLength(getWidth()); // Wrap based on cell width
-                    setGraphic(flowPane);
-                }
-            }
-        });
-
+        tagsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getTags().stream().map(Object::toString).reduce((x, y) -> x + "," + y).orElse("")));
         attendanceStatusColumn.setCellValueFactory(cellData -> {
             AttendanceStatus status = cellData.getValue().getAttendance();
             String display = (status.value == AttendanceStatus.Status.NONE) ? "" : status.toString();
