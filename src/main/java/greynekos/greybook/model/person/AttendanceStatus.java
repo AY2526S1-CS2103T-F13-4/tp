@@ -84,7 +84,7 @@ public class AttendanceStatus {
             return false;
         }
         for (Status s : Status.values()) {
-            if (s.name().equalsIgnoreCase(test) || s.toString().equalsIgnoreCase(test)) {
+            if (s.name().equalsIgnoreCase(test)) {
                 return true;
             }
         }
@@ -100,7 +100,7 @@ public class AttendanceStatus {
      */
     private static Status parseStatus(String statusString) {
         for (Status s : Status.values()) {
-            if (s.name().equalsIgnoreCase(statusString) || s.toString().equalsIgnoreCase(statusString)) {
+            if (s.name().equalsIgnoreCase(statusString)) {
                 return s;
             }
         }
