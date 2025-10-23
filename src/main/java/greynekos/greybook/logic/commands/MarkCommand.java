@@ -13,18 +13,18 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 import java.util.Optional;
 
-import greynekos.greybook.commons.core.index.Index;
 import greynekos.greybook.logic.Messages;
 import greynekos.greybook.logic.commands.exceptions.CommandException;
+import greynekos.greybook.logic.commands.util.CommandUtil;
 import greynekos.greybook.logic.parser.ArgumentParseResult;
 import greynekos.greybook.logic.parser.GreyBookParser;
 import greynekos.greybook.logic.parser.ParserUtil;
-import greynekos.greybook.logic.parser.commandoption.OptionalPrefixOption;
-import greynekos.greybook.logic.parser.commandoption.OptionalSinglePreambleOption;
+import greynekos.greybook.logic.parser.commandoption.RequiredMutuallyExclusivePrefixOption;
+import greynekos.greybook.logic.parser.commandoption.SinglePreambleOption;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.person.AttendanceStatus;
 import greynekos.greybook.model.person.Person;
-import greynekos.greybook.model.person.StudentID;
+import greynekos.greybook.model.person.PersonIdentifier;
 
 /**
  * The MarkCommand marks a club member's attendance (e.g. as Present, Absent,
@@ -33,6 +33,7 @@ import greynekos.greybook.model.person.StudentID;
 public class MarkCommand extends Command {
 
     public static final String COMMAND_WORD = "mark";
+    private static final String PREFIX_GROUP_STRING = "ATTENDANCE";
 
     /** Message shown when marking is successful */
     public static final String MESSAGE_MARK_PERSON_SUCCESS = "Marked %1$s's Attendance: %2$s";
@@ -52,29 +53,25 @@ public class MarkCommand extends Command {
     /**
      * Mark Command Preamble and Prefix Options
      */
-    private final OptionalSinglePreambleOption<Index> indexOption =
-            OptionalSinglePreambleOption.of("INDEX", ParserUtil::parseIndex);
+    private final SinglePreambleOption<PersonIdentifier> identifierOption =
+            SinglePreambleOption.of("INDEX or STUDENTID", ParserUtil::parsePersonIdentifier);
 
-    private final OptionalSinglePreambleOption<StudentID> studentIdOption =
-            OptionalSinglePreambleOption.of("STUDENT_ID", ParserUtil::parseStudentID);
+    private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> presentOption =
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_PRESENT, "Present", s -> AttendanceStatus.Status.PRESENT);
 
-    private final OptionalPrefixOption<AttendanceStatus.Status> presentOption =
-            OptionalPrefixOption.of(PREFIX_PRESENT, "Present", s -> AttendanceStatus.Status.PRESENT);
+    private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> absentOption =
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_ABSENT, "Absent", s -> AttendanceStatus.Status.ABSENT);
 
-    private final OptionalPrefixOption<AttendanceStatus.Status> absentOption =
-            OptionalPrefixOption.of(PREFIX_ABSENT, "Absent", s -> AttendanceStatus.Status.ABSENT);
+    private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> lateOption =
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_LATE, "Late", s -> AttendanceStatus.Status.LATE);
 
-    private final OptionalPrefixOption<AttendanceStatus.Status> lateOption =
-            OptionalPrefixOption.of(PREFIX_LATE, "Late", s -> AttendanceStatus.Status.LATE);
-
-    private final OptionalPrefixOption<AttendanceStatus.Status> excusedOption =
-            OptionalPrefixOption.of(PREFIX_EXCUSED, "Excused", s -> AttendanceStatus.Status.EXCUSED);
+    private final RequiredMutuallyExclusivePrefixOption<AttendanceStatus.Status> excusedOption =
+            RequiredMutuallyExclusivePrefixOption.of(PREFIX_GROUP_STRING, PREFIX_EXCUSED, "Excused", s -> AttendanceStatus.Status.EXCUSED);
 
     @Override
     public void addToParser(GreyBookParser parser) {
         parser.newCommand(COMMAND_WORD, MESSAGE_USAGE, this)
-                .addOptions(indexOption, studentIdOption, presentOption, absentOption, lateOption, excusedOption)
-                .enforceOnePreamble().addExclusiveOptions(presentOption, absentOption, lateOption, excusedOption);
+                .addOptions(identifierOption, presentOption, absentOption, lateOption, excusedOption);
     }
 
     @Override
@@ -86,19 +83,8 @@ public class MarkCommand extends Command {
             throw new CommandException(MESSAGE_MISSING_ATTENDANCE_FLAG);
         }
 
-        /** Retrieve identifier (either index or student ID) and Person **/
-        Optional<Index> indexOptional = arg.getOptionalValue(indexOption);
-        Optional<StudentID> studentIdOptional = arg.getOptionalValue(studentIdOption);
-
-        Person personToMark;
-        
-        if (studentIdOptional.isPresent()) {
-            StudentID studentId = studentIdOptional.get();
-            personToMark = getPersonByStudentId(model, studentId);
-        } else {
-            Index index = indexOptional.get();
-            personToMark = getPersonByIndex(model, index);
-        }
+        PersonIdentifier identifier = getParseResult(arg);
+        Person personToMark = CommandUtil.resolvePerson(model, identifier);
 
         Person markedPerson = createdMarkedPerson(personToMark, attendanceStatus);
         model.setPerson(personToMark, markedPerson);
@@ -131,35 +117,6 @@ public class MarkCommand extends Command {
     }
 
     /**
-     * Returns the person at the specified index in the filtered person list.
-     *
-     * @param model the model containing the filtered person list
-     * @param index the index of the person
-     * @return the person at the index
-     * @throws CommandException if index is out of bounds
-     */
-    private Person getPersonByIndex(Model model, Index index) throws CommandException {
-        List<Person> list = model.getFilteredPersonList();
-        if (index.getZeroBased() >= list.size()) {
-            throw new CommandException(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-        }
-        return list.get(index.getZeroBased());
-    }
-
-    /**
-     * Returns the person with the given StudentID.
-     *
-     * @param model the model containing the person list
-     * @param sid the StudentID of the target person
-     * @return the person with the given StudentID
-     * @throws CommandException if no person with the StudentID is found
-     */
-    private Person getPersonByStudentId(Model model, StudentID sid) throws CommandException {
-        return model.getPersonByStudentId(sid)
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_MISSING_STUDENTID, sid)));
-    }
-
-    /**
      * Creates a copy of the given person with the new attendance status.
      *
      * @param personToEdit the original person
@@ -173,4 +130,8 @@ public class MarkCommand extends Command {
                 personToEdit.getStudentID(), personToEdit.getTags(), newAttendanceStatus);
     }
 
+    @Override
+    public PersonIdentifier getParseResult(ArgumentParseResult argResult) {
+        return argResult.getValue(identifierOption);
+    }
 }

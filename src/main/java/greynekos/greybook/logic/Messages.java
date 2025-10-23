@@ -19,6 +19,8 @@ public class Messages {
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_MUTUALLY_EXCLUSIVE_FIELDS =
+            "Multiple values specified for the following mutually exclusive field(s): ";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -29,6 +31,14 @@ public class Messages {
         Set<String> duplicateFields = Stream.of(duplicatePrefixes).map(Prefix::toString).collect(Collectors.toSet());
 
         return MESSAGE_DUPLICATE_FIELDS + String.join(" ", duplicateFields);
+    }
+
+    public static String getErrorMessageForMutuallyExclusivePrefixes(Prefix ...mutuallyExclusivePrefixes) {
+        assert mutuallyExclusivePrefixes.length > 0;
+
+        Set<String> mutuallyExclusiveFields = Stream.of(mutuallyExclusivePrefixes).map(Prefix::toString).collect(Collectors.toSet());
+
+        return MESSAGE_MUTUALLY_EXCLUSIVE_FIELDS + String.join(" ", mutuallyExclusiveFields);
     }
 
     /**

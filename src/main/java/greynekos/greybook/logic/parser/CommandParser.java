@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import greynekos.greybook.logic.commands.Command;
+import greynekos.greybook.logic.parser.commandoption.MutuallyExclusiveOption;
 import greynekos.greybook.logic.parser.commandoption.NoDuplicateOption;
 import greynekos.greybook.logic.parser.commandoption.OneOrMorePreambleOption;
 import greynekos.greybook.logic.parser.commandoption.Option;
@@ -27,8 +28,6 @@ public class CommandParser {
     private List<Option<?>> options = new ArrayList<>();
     private String messageUsage;
     private Command command;
-    private final List<Option<?>[]> exclusiveGroups = new ArrayList<>();
-    private boolean enforceOnePreamble = false;
 
     CommandParser(String messageUsage, Command command) {
         this.messageUsage = messageUsage;
@@ -58,22 +57,6 @@ public class CommandParser {
     }
 
     /**
-     * Enables validation that only one preamble can have a value
-     */
-    public CommandParser enforceOnePreamble() {
-        this.enforceOnePreamble = true;
-        return this;
-    }
-
-    /**
-     * Adds a group of mutually exclusive options
-     */
-    public CommandParser addExclusiveOptions(Option<?>... options) {
-        exclusiveGroups.add(options);
-        return this;
-    }
-
-    /**
      * Does most of the parsing, finds which arguments are associated with which
      * options and parses them accordingly. Also makes sure the user input obeys the
      * correct format as defined by the options
@@ -99,6 +82,7 @@ public class CommandParser {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(getNoDuplicateOptions());
+        argMultimap.verifyNoMutuallyExclusivePrefixesFor(getMutuallyExclusiveOptions());
 
         Map<Option<?>, List<?>> optionArgumentToResult = new HashMap<>();
         for (Option<?> option : options) {
@@ -126,53 +110,7 @@ public class CommandParser {
             optionArgumentToResult.put(option, result);
         }
 
-        // Perform validations if configured
-        if (enforceOnePreamble) {
-            verifyAtMostOneSinglePreamble(optionArgumentToResult);
-        }
-        if (!exclusiveGroups.isEmpty()) {
-            verifyExclusiveGroups(optionArgumentToResult);
-        }
-
         return new ArgumentParseResult(command, optionArgumentToResult);
-    }
-
-    /**
-     * Validates that at most one single preamble option is provided. StudentID
-     * prefix option is also counted as a single preamble option.
-     *
-     * @param optionResults
-     *            the parsed options and their results
-     * @throws ParseException
-     *             if zero or more than one single preamble is present
-     */
-    private void verifyAtMostOneSinglePreamble(Map<Option<?>, List<?>> optionResults) throws ParseException {
-        long identifierCount = options.stream().filter(opt -> opt instanceof OptionalSinglePreambleOption)
-                .map(optionResults::get)
-                .filter(list -> list != null && !list.isEmpty() && list.stream().anyMatch(Objects::nonNull)).count();
-
-        if (identifierCount != 1) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, messageUsage));
-        }
-    }
-
-    /**
-     * Validates mutually exclusive option groups.
-     *
-     * @param optionResults
-     *            the parsed options and their results
-     * @throws ParseException
-     *             if more than one option in a group is present
-     */
-    private void verifyExclusiveGroups(Map<Option<?>, List<?>> optionResults) throws ParseException {
-        for (Option<?>[] group : exclusiveGroups) {
-            long presentCount = Stream.of(group).map(optionResults::get)
-                    .filter(list -> list != null && !list.isEmpty() && list.stream().anyMatch(Objects::nonNull))
-                    .count();
-            if (presentCount > 1) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, messageUsage));
-            }
-        }
     }
 
     private Prefix[] getPrefixOptions() {
@@ -185,6 +123,10 @@ public class CommandParser {
 
     private Prefix[] getNoDuplicateOptions() {
         return filterOptionsByInstance(NoDuplicateOption.class);
+    }
+
+    private Prefix[] getMutuallyExclusiveOptions() {
+        return filterOptionsByInstance(MutuallyExclusiveOption.class);
     }
 
     private Prefix[] filterOptionsByInstance(Class<?> cls) {
