@@ -23,23 +23,39 @@ public class ModelManager implements Model {
 
     private final GreyBook greyBook;
     private final UserPrefs userPrefs;
+    private final History history;
     private final FilteredList<Person> filteredPersons;
 
     /**
      * Initializes a ModelManager with the given greyBook and userPrefs.
      */
-    public ModelManager(ReadOnlyGreyBook greyBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyGreyBook greyBook, ReadOnlyUserPrefs userPrefs, ReadOnlyHistory history) {
         requireAllNonNull(greyBook, userPrefs);
 
         logger.fine("Initializing with GreyBook: " + greyBook + " and user prefs " + userPrefs);
 
         this.greyBook = new GreyBook(greyBook);
         this.userPrefs = new UserPrefs(userPrefs);
+        this.history = new History(history);
         filteredPersons = new FilteredList<>(this.greyBook.getPersonList());
     }
 
     public ModelManager() {
-        this(new GreyBook(), new UserPrefs());
+        this(new GreyBook(), new UserPrefs(), new History());
+    }
+
+    // =========== History
+    // ==================================================================================
+
+    @Override
+    public void setHistory(ReadOnlyHistory history) {
+        requireNonNull(history);
+        this.history.resetData(history);
+    }
+
+    @Override
+    public ReadOnlyHistory getHistory() {
+        return history;
     }
 
     // =========== UserPrefs
@@ -152,6 +168,7 @@ public class ModelManager implements Model {
 
         ModelManager otherModelManager = (ModelManager) other;
         return greyBook.equals(otherModelManager.greyBook) && userPrefs.equals(otherModelManager.userPrefs)
+                && history.equals(otherModelManager.history)
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
 }

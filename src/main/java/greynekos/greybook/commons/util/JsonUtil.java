@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,8 +43,8 @@ public class JsonUtil {
         FileUtil.writeToFile(jsonFile, toJsonString(objectToSerialize));
     }
 
-    static <T> T deserializeObjectFromJsonFile(Path jsonFile, Class<T> classOfObjectToDeserialize) throws IOException {
-        return fromJsonString(FileUtil.readFromFile(jsonFile), classOfObjectToDeserialize);
+    static <T> T deserializeObjectFromJsonFile(Path jsonFile, TypeReference<T> typeRef) throws IOException {
+        return fromJsonString(FileUtil.readFromFile(jsonFile), typeRef);
     }
 
     /**
@@ -53,14 +54,13 @@ public class JsonUtil {
      *
      * @param filePath
      *            cannot be null.
-     * @param classOfObjectToDeserialize
+     * @param typeRef
      *            JSON file has to correspond to the structure in the class given
      *            here.
      * @throws DataLoadingException
      *             if loading of the JSON file failed.
      */
-    public static <T> Optional<T> readJsonFile(Path filePath, Class<T> classOfObjectToDeserialize)
-            throws DataLoadingException {
+    public static <T> Optional<T> readJsonFile(Path filePath, TypeReference<T> typeRef) throws DataLoadingException {
         requireNonNull(filePath);
 
         if (!Files.exists(filePath)) {
@@ -71,7 +71,7 @@ public class JsonUtil {
         T jsonFile;
 
         try {
-            jsonFile = deserializeObjectFromJsonFile(filePath, classOfObjectToDeserialize);
+            jsonFile = deserializeObjectFromJsonFile(filePath, typeRef);
         } catch (IOException e) {
             logger.warning("Error reading from jsonFile file " + filePath + ": " + e);
             throw new DataLoadingException(e);
@@ -105,8 +105,8 @@ public class JsonUtil {
      *            The generic type to create an instance of
      * @return The instance of T with the specified values in the JSON string
      */
-    public static <T> T fromJsonString(String json, Class<T> instanceClass) throws IOException {
-        return objectMapper.readValue(json, instanceClass);
+    public static <T> T fromJsonString(String json, TypeReference<T> typeRef) throws IOException {
+        return objectMapper.readValue(json, typeRef);
     }
 
     /**

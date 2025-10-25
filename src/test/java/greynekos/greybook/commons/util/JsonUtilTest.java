@@ -7,6 +7,8 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import greynekos.greybook.testutil.SerializableTestClass;
 import greynekos.greybook.testutil.TestUtil;
 
@@ -32,7 +34,8 @@ public class JsonUtilTest {
         FileUtil.writeToFile(SERIALIZATION_FILE, SerializableTestClass.JSON_STRING_REPRESENTATION);
 
         SerializableTestClass serializableTestClass =
-                JsonUtil.deserializeObjectFromJsonFile(SERIALIZATION_FILE, SerializableTestClass.class);
+                JsonUtil.deserializeObjectFromJsonFile(SERIALIZATION_FILE, new TypeReference<SerializableTestClass>() {
+                });
 
         assertEquals(serializableTestClass.getName(), SerializableTestClass.getNameTestValue());
         assertEquals(serializableTestClass.getListOfLocalDateTimes(), SerializableTestClass.getListTestValues());

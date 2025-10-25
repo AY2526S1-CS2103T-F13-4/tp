@@ -35,11 +35,17 @@ public abstract class CommandOption<T> implements Option<T> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof CommandOption<?>) {
-            CommandOption<?> other = (CommandOption<?>) obj;
-            return other.prefix.equals(prefix) && other.name.equals(name);
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
         }
-        return false;
+
+        // instanceof handles nulls
+        if (!(other instanceof CommandOption)) {
+            return false;
+        }
+
+        CommandOption<?> otherPrefix = (CommandOption<?>) other;
+        return otherPrefix.prefix.equals(prefix) && otherPrefix.name.equals(name);
     }
 }

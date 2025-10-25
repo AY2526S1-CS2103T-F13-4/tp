@@ -23,12 +23,14 @@ import greynekos.greybook.logic.commands.DeleteCommand;
 import greynekos.greybook.logic.commands.ListCommand;
 import greynekos.greybook.logic.commands.exceptions.CommandException;
 import greynekos.greybook.logic.parser.exceptions.ParseException;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.ReadOnlyGreyBook;
 import greynekos.greybook.model.UserPrefs;
 import greynekos.greybook.model.person.Person;
 import greynekos.greybook.storage.JsonGreyBookStorage;
+import greynekos.greybook.storage.JsonHistoryStorage;
 import greynekos.greybook.storage.JsonUserPrefsStorage;
 import greynekos.greybook.storage.StorageManager;
 import greynekos.greybook.testutil.PersonBuilder;
@@ -47,7 +49,8 @@ public class LogicManagerTest {
     public void setUp() {
         JsonGreyBookStorage greyBookStorage = new JsonGreyBookStorage(temporaryFolder.resolve("greyBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(greyBookStorage, userPrefsStorage);
+        JsonHistoryStorage historyStorage = new JsonHistoryStorage(temporaryFolder.resolve("history.json"));
+        StorageManager storage = new StorageManager(greyBookStorage, userPrefsStorage, historyStorage);
         logic = new LogicManager(model, storage);
     }
 
@@ -129,7 +132,7 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs(), new History());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 
@@ -172,7 +175,8 @@ public class LogicManagerTest {
 
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ExceptionUserPrefs.json"));
-        StorageManager storage = new StorageManager(greyBookStorage, userPrefsStorage);
+        JsonHistoryStorage historyStorage = new JsonHistoryStorage(temporaryFolder.resolve("history.json"));
+        StorageManager storage = new StorageManager(greyBookStorage, userPrefsStorage, historyStorage);
 
         logic = new LogicManager(model, storage);
 
@@ -182,6 +186,7 @@ public class LogicManagerTest {
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
+        expectedModel.getHistory().getCommandHistory().addCommand(addCommand);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }

@@ -17,6 +17,16 @@ public interface Model {
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
     /**
+     * Replaces history data with the data in {@code history}.
+     */
+    void setHistory(ReadOnlyHistory history);
+
+    /**
+     * Returns the history.
+     */
+    ReadOnlyHistory getHistory();
+
+    /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */
     void setUserPrefs(ReadOnlyUserPrefs userPrefs);

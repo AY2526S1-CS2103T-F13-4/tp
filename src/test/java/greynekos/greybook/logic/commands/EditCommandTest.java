@@ -18,6 +18,7 @@ import greynekos.greybook.logic.Messages;
 import greynekos.greybook.logic.commands.EditCommand.EditPersonDescriptor;
 import greynekos.greybook.logic.commands.stubs.EditPersonArgumentParseResultStub;
 import greynekos.greybook.model.GreyBook;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -31,7 +32,7 @@ import greynekos.greybook.testutil.PersonBuilder;
  */
 public class EditCommandTest {
 
-    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
@@ -44,7 +45,7 @@ public class EditCommandTest {
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
 
         assertCommandSuccess(editCommand, model, argStub, expectedMessage, expectedModel);
@@ -66,7 +67,7 @@ public class EditCommandTest {
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(lastPerson, editedPerson);
 
         assertCommandSuccess(editCommand, model, argStub, expectedMessage, expectedModel);
@@ -85,7 +86,7 @@ public class EditCommandTest {
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
 
         assertCommandSuccess(editCommand, model, argStub, expectedMessage, expectedModel);

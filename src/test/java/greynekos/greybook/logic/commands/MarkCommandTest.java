@@ -14,6 +14,7 @@ import greynekos.greybook.logic.Messages;
 import greynekos.greybook.logic.parser.ArgumentParseResult;
 import greynekos.greybook.logic.parser.GreyBookParser;
 import greynekos.greybook.model.GreyBook;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -28,7 +29,7 @@ import greynekos.greybook.testutil.PersonBuilder;
  */
 public class MarkCommandTest {
 
-    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
 
     @Test
     public void execute_markByIndex_success() throws Exception {
@@ -45,7 +46,7 @@ public class MarkCommandTest {
         Person markedPerson =
                 new PersonBuilder(targetPerson).withAttendanceStatus(AttendanceStatus.Status.PRESENT).build();
 
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(targetPerson, markedPerson);
 
         String expectedMessage = String.format(MarkCommand.MESSAGE_MARK_PERSON_SUCCESS, markedPerson.getName(),
@@ -66,7 +67,7 @@ public class MarkCommandTest {
 
         Person markedPerson =
                 new PersonBuilder(targetPerson).withAttendanceStatus(AttendanceStatus.Status.EXCUSED).build();
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(targetPerson, markedPerson);
 
         String expectedMessage = String.format(MarkCommand.MESSAGE_MARK_PERSON_SUCCESS, markedPerson.getName(),
@@ -90,7 +91,7 @@ public class MarkCommandTest {
         Person markedPerson =
                 new PersonBuilder(targetPerson).withAttendanceStatus(AttendanceStatus.Status.LATE).build();
 
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(targetPerson, markedPerson);
 
         String expectedMessage = String.format(MarkCommand.MESSAGE_MARK_PERSON_SUCCESS, markedPerson.getName(),

@@ -7,6 +7,7 @@ import greynekos.greybook.logic.commands.CommandResult;
 import greynekos.greybook.logic.commands.exceptions.CommandException;
 import greynekos.greybook.logic.parser.exceptions.ParseException;
 import greynekos.greybook.model.ReadOnlyGreyBook;
+import greynekos.greybook.model.ReadOnlyHistory;
 import greynekos.greybook.model.person.Person;
 import javafx.collections.ObservableList;
 
@@ -51,4 +52,11 @@ public interface Logic {
      * Set the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
+
+    /**
+     * Returns history.
+     *
+     * @see greynekos.greybook.model.Model#getHistory()
+     */
+    ReadOnlyHistory getHistory();
 }

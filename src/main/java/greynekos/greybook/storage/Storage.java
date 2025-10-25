@@ -5,14 +5,22 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import greynekos.greybook.commons.exceptions.DataLoadingException;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.ReadOnlyGreyBook;
+import greynekos.greybook.model.ReadOnlyHistory;
 import greynekos.greybook.model.ReadOnlyUserPrefs;
 import greynekos.greybook.model.UserPrefs;
 
 /**
  * API of the Storage component
  */
-public interface Storage extends GreyBookStorage, UserPrefsStorage {
+public interface Storage extends GreyBookStorage, UserPrefsStorage, HistoryStorage {
+
+    @Override
+    Optional<History> readHistory() throws DataLoadingException;
+
+    @Override
+    void saveHistory(ReadOnlyHistory history) throws IOException;
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataLoadingException;

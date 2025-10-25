@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import greynekos.greybook.commons.core.index.Index;
 import greynekos.greybook.logic.commands.exceptions.CommandException;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -29,7 +30,7 @@ public class CommandUtilTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(TypicalPersons.getTypicalGreyBook(), new UserPrefs());
+        model = new ModelManager(TypicalPersons.getTypicalGreyBook(), new UserPrefs(), new History());
     }
 
     @Test

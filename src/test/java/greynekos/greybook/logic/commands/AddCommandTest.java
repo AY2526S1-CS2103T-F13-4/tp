@@ -19,6 +19,7 @@ import greynekos.greybook.logic.commands.stubs.AddPersonArgumentParseResultStub;
 import greynekos.greybook.model.GreyBook;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ReadOnlyGreyBook;
+import greynekos.greybook.model.ReadOnlyHistory;
 import greynekos.greybook.model.ReadOnlyUserPrefs;
 import greynekos.greybook.model.person.Person;
 import greynekos.greybook.model.person.StudentID;
@@ -55,6 +56,16 @@ public class AddCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
+        @Override
+        public void setHistory(ReadOnlyHistory history) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyHistory getHistory() {
+            throw new AssertionError("This method should not be called.");
+        }
+
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");

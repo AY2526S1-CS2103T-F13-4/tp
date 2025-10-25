@@ -15,6 +15,7 @@ import greynekos.greybook.logic.parser.GreyBookParser;
 import greynekos.greybook.logic.parser.exceptions.ParseException;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ReadOnlyGreyBook;
+import greynekos.greybook.model.ReadOnlyHistory;
 import greynekos.greybook.model.person.Person;
 import greynekos.greybook.storage.Storage;
 import javafx.collections.ObservableList;
@@ -52,9 +53,11 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         ArgumentParseResult argParseResult = greyBookParser.parse(commandText);
         commandResult = argParseResult.execute(model);
+        model.getHistory().getCommandHistory().addCommand(commandText);
 
         try {
             storage.saveGreyBook(model.getGreyBook());
+            storage.saveHistory(model.getHistory());
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
@@ -87,5 +90,10 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
+    }
+
+    @Override
+    public ReadOnlyHistory getHistory() {
+        return model.getHistory();
     }
 }

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import greynekos.greybook.logic.Messages;
 import greynekos.greybook.logic.commands.stubs.AddPersonArgumentParseResultStub;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -25,7 +26,7 @@ public class AddCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
+        model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
     }
 
     @Test
@@ -33,7 +34,7 @@ public class AddCommandIntegrationTest {
         Person validPerson = new PersonBuilder().build();
         AddPersonArgumentParseResultStub argStub = new AddPersonArgumentParseResultStub(validPerson);
 
-        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs(), new History());
         expectedModel.addPerson(validPerson);
 
         assertCommandSuccess(new AddCommand(), model, argStub,

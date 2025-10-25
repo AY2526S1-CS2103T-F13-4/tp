@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import greynekos.greybook.commons.core.LogsCenter;
 import greynekos.greybook.commons.exceptions.DataLoadingException;
 import greynekos.greybook.commons.exceptions.IllegalValueException;
@@ -48,7 +50,8 @@ public class JsonGreyBookStorage implements GreyBookStorage {
         requireNonNull(filePath);
 
         Optional<JsonSerializableGreyBook> jsonGreyBook =
-                JsonUtil.readJsonFile(filePath, JsonSerializableGreyBook.class);
+                JsonUtil.readJsonFile(filePath, new TypeReference<JsonSerializableGreyBook>() {
+                });
         if (!jsonGreyBook.isPresent()) {
             return Optional.empty();
         }

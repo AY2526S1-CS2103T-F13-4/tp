@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import greynekos.greybook.logic.commands.stubs.ArgumentParseResultStub;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -24,8 +25,8 @@ public class ListCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs());
+        model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
+        expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs(), new History());
     }
 
     @Test

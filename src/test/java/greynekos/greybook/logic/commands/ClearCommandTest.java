@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import greynekos.greybook.logic.commands.stubs.ArgumentParseResultStub;
 import greynekos.greybook.model.GreyBook;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -24,8 +25,8 @@ public class ClearCommandTest {
 
     @Test
     public void execute_nonEmptyGreyBook_success() {
-        Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
-        Model expectedModel = new ModelManager(getTypicalGreyBook(), new UserPrefs());
+        Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
+        Model expectedModel = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
         expectedModel.setGreyBook(new GreyBook());
 
         assertCommandSuccess(new ClearCommand(), model, new ArgumentParseResultStub(), ClearCommand.MESSAGE_SUCCESS,

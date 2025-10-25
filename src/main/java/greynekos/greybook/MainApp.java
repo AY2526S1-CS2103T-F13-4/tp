@@ -14,14 +14,18 @@ import greynekos.greybook.commons.util.StringUtil;
 import greynekos.greybook.logic.Logic;
 import greynekos.greybook.logic.LogicManager;
 import greynekos.greybook.model.GreyBook;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.ReadOnlyGreyBook;
+import greynekos.greybook.model.ReadOnlyHistory;
 import greynekos.greybook.model.ReadOnlyUserPrefs;
 import greynekos.greybook.model.UserPrefs;
 import greynekos.greybook.model.util.SampleDataUtil;
 import greynekos.greybook.storage.GreyBookStorage;
+import greynekos.greybook.storage.HistoryStorage;
 import greynekos.greybook.storage.JsonGreyBookStorage;
+import greynekos.greybook.storage.JsonHistoryStorage;
 import greynekos.greybook.storage.JsonUserPrefsStorage;
 import greynekos.greybook.storage.Storage;
 import greynekos.greybook.storage.StorageManager;
@@ -57,10 +61,12 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
+        HistoryStorage historyStorage = new JsonHistoryStorage(config.getHistoryFilePath());
+        History history = initHistory(historyStorage);
         GreyBookStorage greyBookStorage = new JsonGreyBookStorage(userPrefs.getGreyBookFilePath());
-        storage = new StorageManager(greyBookStorage, userPrefsStorage);
+        storage = new StorageManager(greyBookStorage, userPrefsStorage, historyStorage);
 
-        model = initModelManager(storage, userPrefs);
+        model = initModelManager(storage, userPrefs, history);
 
         logic = new LogicManager(model, storage);
 
@@ -74,7 +80,7 @@ public class MainApp extends Application {
      * GreyBook is not found, or an empty GreyBook will be used instead if errors
      * occur when reading {@code storage}'s GreyBook.
      */
-    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
+    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs, ReadOnlyHistory history) {
         logger.info("Using data file : " + storage.getGreyBookFilePath());
 
         Optional<ReadOnlyGreyBook> greyBookOptional;
@@ -92,7 +98,7 @@ public class MainApp extends Application {
             initialData = new GreyBook();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialData, userPrefs, history);
     }
 
     private void initLogging(Config config) {
@@ -170,6 +176,33 @@ public class MainApp extends Application {
         }
 
         return initializedPrefs;
+    }
+
+    protected History initHistory(HistoryStorage storage) {
+        Path historyFilePath = storage.getHistoryFilePath();
+        logger.info("Using history file : " + historyFilePath);
+
+        History initializedHistory;
+        try {
+            Optional<History> historyOptional = storage.readHistory();
+            if (!historyOptional.isPresent()) {
+                logger.info("Creating new history file " + historyFilePath);
+            }
+            initializedHistory = historyOptional.orElse(new History());
+        } catch (DataLoadingException e) {
+            logger.warning("History file at " + historyFilePath + " could not be loaded." + " Using default history.");
+            initializedHistory = new History();
+        }
+
+        // Update history file in case it was missing to begin with or there are
+        // new/unused fields
+        try {
+            storage.saveHistory(initializedHistory);
+        } catch (IOException e) {
+            logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
+        }
+
+        return initializedHistory;
     }
 
     @Override

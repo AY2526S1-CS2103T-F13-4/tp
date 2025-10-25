@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import greynekos.greybook.commons.exceptions.DataLoadingException;
 import greynekos.greybook.commons.util.JsonUtil;
 import greynekos.greybook.model.ReadOnlyUserPrefs;
@@ -39,7 +41,8 @@ public class JsonUserPrefsStorage implements UserPrefsStorage {
      *             if the file format is not as expected.
      */
     public Optional<UserPrefs> readUserPrefs(Path prefsFilePath) throws DataLoadingException {
-        return JsonUtil.readJsonFile(prefsFilePath, UserPrefs.class);
+        return JsonUtil.readJsonFile(prefsFilePath, new TypeReference<UserPrefs>() {
+        });
     }
 
     @Override

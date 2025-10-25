@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import greynekos.greybook.logic.parser.ArgumentParseResult;
 import greynekos.greybook.logic.parser.GreyBookParser;
 import greynekos.greybook.model.GreyBook;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -25,7 +26,7 @@ import greynekos.greybook.testutil.PersonBuilder;
  */
 public class UnmarkCommandTest {
 
-    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
 
     @Test
     public void execute_unmarkByIndex_success() throws Exception {
@@ -41,7 +42,7 @@ public class UnmarkCommandTest {
         Person unmarkedPerson =
                 new PersonBuilder(targetPerson).withAttendanceStatus(AttendanceStatus.Status.NONE).build();
 
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(targetPerson, unmarkedPerson);
 
         String expectedMessage = String.format(UnmarkCommand.MESSAGE_UNMARK_PERSON_SUCCESS, unmarkedPerson.getName());
@@ -64,7 +65,7 @@ public class UnmarkCommandTest {
         Person unmarkedPerson =
                 new PersonBuilder(targetPerson).withAttendanceStatus(AttendanceStatus.Status.NONE).build();
 
-        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs(), new History());
         expectedModel.setPerson(targetPerson, unmarkedPerson);
 
         String expectedMessage = String.format(UnmarkCommand.MESSAGE_UNMARK_PERSON_SUCCESS, unmarkedPerson.getName());

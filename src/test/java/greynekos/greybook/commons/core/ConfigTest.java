@@ -12,7 +12,7 @@ public class ConfigTest {
     public void toStringMethod() {
         Config config = new Config();
         String expected = Config.class.getCanonicalName() + "{logLevel=" + config.getLogLevel() + ", userPrefsFilePath="
-                + config.getUserPrefsFilePath() + "}";
+                + config.getUserPrefsFilePath() + ", historyFilePath=" + config.getHistoryFilePath() + "}";
         assertEquals(expected, config.toString());
     }
 

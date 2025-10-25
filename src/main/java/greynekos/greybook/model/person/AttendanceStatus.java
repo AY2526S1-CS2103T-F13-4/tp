@@ -129,6 +129,7 @@ public class AttendanceStatus {
             return true;
         }
 
+        // instanceof handles nulls
         if (!(other instanceof AttendanceStatus)) {
             return false;
         }

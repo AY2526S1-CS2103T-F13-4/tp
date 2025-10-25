@@ -14,6 +14,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import greynekos.greybook.logic.commands.stubs.FindPersonArgumentParseResultStub;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -24,8 +25,8 @@ import greynekos.greybook.model.person.NameContainsKeywordsPredicate;
  * {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalGreyBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
+    private Model expectedModel = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
 
     @Test
     public void execute_zeroKeywords_noPersonFound() {

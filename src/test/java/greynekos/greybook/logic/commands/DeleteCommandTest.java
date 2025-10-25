@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import greynekos.greybook.commons.core.index.Index;
 import greynekos.greybook.logic.commands.stubs.DeletePersonArgumentParseResultStub;
+import greynekos.greybook.model.History;
 import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ModelManager;
 import greynekos.greybook.model.UserPrefs;
@@ -24,7 +25,7 @@ import greynekos.greybook.model.person.StudentID;
  */
 public class DeleteCommandTest {
 
-    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalGreyBook(), new UserPrefs(), new History());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
@@ -34,7 +35,7 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete.getName());
 
-        ModelManager expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs(), new History());
         expectedModel.deletePerson(personToDelete);
 
         assertCommandSuccess(deleteCommand, model, argStub, expectedMessage, expectedModel);
@@ -59,7 +60,7 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete.getName());
 
-        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs(), new History());
         expectedModel.deletePerson(personToDelete);
         showNoPerson(expectedModel);
 
@@ -89,7 +90,7 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete.getName());
 
-        ModelManager expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs(), new History());
         expectedModel.deletePerson(personToDelete);
 
         assertCommandSuccess(deleteCommand, model, argStub, expectedMessage, expectedModel);
@@ -115,7 +116,7 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete.getName());
 
-        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getGreyBook(), new UserPrefs(), new History());
         expectedModel.deletePerson(personToDelete);
 
         assertCommandSuccess(deleteCommand, model, argStub, expectedMessage, expectedModel);
