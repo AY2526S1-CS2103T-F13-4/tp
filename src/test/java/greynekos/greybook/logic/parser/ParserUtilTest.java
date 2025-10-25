@@ -21,7 +21,7 @@ import greynekos.greybook.model.person.StudentID;
 import greynekos.greybook.model.tag.Tag;
 
 public class ParserUtilTest {
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NAME = " ";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_STUDENTID = "B1234567A";
