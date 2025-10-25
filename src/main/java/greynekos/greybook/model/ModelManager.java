@@ -4,14 +4,12 @@ import static greynekos.greybook.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import greynekos.greybook.commons.core.GuiSettings;
 import greynekos.greybook.commons.core.LogsCenter;
 import greynekos.greybook.model.person.Person;
-import greynekos.greybook.model.person.StudentID;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
@@ -113,12 +111,6 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         greyBook.setPerson(target, editedPerson);
-    }
-
-    @Override
-    public Optional<Person> getPersonByStudentId(StudentID studentId) {
-        requireNonNull(studentId);
-        return filteredPersons.stream().filter(person -> person.getStudentID().equals(studentId)).findFirst();
     }
 
     // =========== Filtered Person List Accessors

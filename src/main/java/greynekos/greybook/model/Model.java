@@ -1,12 +1,10 @@
 package greynekos.greybook.model;
 
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import greynekos.greybook.commons.core.GuiSettings;
 import greynekos.greybook.model.person.Person;
-import greynekos.greybook.model.person.StudentID;
 import javafx.collections.ObservableList;
 
 /**
@@ -78,12 +76,6 @@ public interface Model {
      * GreyBook.
      */
     void setPerson(Person target, Person editedPerson);
-
-    /**
-     * Returns the person with the given student ID, if they exist in the greybook
-     * book.
-     */
-    Optional<Person> getPersonByStudentId(StudentID studentId);
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();

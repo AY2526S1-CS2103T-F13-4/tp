@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import greynekos.greybook.model.Model;
 import greynekos.greybook.model.ReadOnlyGreyBook;
 import greynekos.greybook.model.ReadOnlyUserPrefs;
 import greynekos.greybook.model.person.Person;
-import greynekos.greybook.model.person.StudentID;
 import greynekos.greybook.testutil.PersonBuilder;
 import javafx.collections.ObservableList;
 
@@ -122,11 +120,6 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Optional<Person> getPersonByStudentId(StudentID studentId) {
             throw new AssertionError("This method should not be called.");
         }
     }

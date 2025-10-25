@@ -1,7 +1,6 @@
 package greynekos.greybook.logic.commands.util;
 
 import java.util.List;
-import java.util.Optional;
 
 import greynekos.greybook.commons.core.index.Index;
 import greynekos.greybook.commons.util.StringUtil;
@@ -35,7 +34,6 @@ public class CommandUtil {
         if (identifier instanceof Index) {
             return findPersonByIndex(model, (Index) identifier);
         } else {
-            model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
             return findPersonByStudentId(model, (StudentID) identifier);
         }
     }
@@ -84,15 +82,8 @@ public class CommandUtil {
      *             if no person with the student ID is found
      */
     private static Person findPersonByStudentId(Model model, StudentID studentId) throws CommandException {
-        List<Person> lastShownList = model.getFilteredPersonList();
-
-        Optional<Person> person = lastShownList.stream().filter(p -> p.getStudentID().equals(studentId)).findFirst();
-
-        if (!person.isPresent()) {
-            throw new CommandException(MESSAGE_PERSON_NOT_FOUND);
-        }
-
-        return person.get();
+        return model.getGreyBook().getPersonList().stream().filter(person -> person.getStudentID().equals(studentId))
+                .findFirst().orElseThrow(() -> new CommandException(MESSAGE_PERSON_NOT_FOUND));
     }
 
 }
