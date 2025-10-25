@@ -31,4 +31,8 @@ public class RequiredMutuallyExclusivePrefixOption<T> extends PrefixOption<T>
             ArgumentParser<S> parser) {
         return new RequiredMutuallyExclusivePrefixOption<>(prefixGroup, prefix, name, parser);
     }
+
+    public String getPrefixGroup() {
+        return this.prefixGroup;
+    }
 }

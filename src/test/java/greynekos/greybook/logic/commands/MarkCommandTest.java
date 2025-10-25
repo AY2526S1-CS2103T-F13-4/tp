@@ -3,6 +3,8 @@ package greynekos.greybook.logic.commands;
 import static greynekos.greybook.logic.commands.CommandTestUtil.assertCommandFailure;
 import static greynekos.greybook.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static greynekos.greybook.logic.commands.util.CommandUtil.MESSAGE_PERSON_NOT_FOUND;
+import static greynekos.greybook.logic.parser.CliSyntax.PREFIX_ABSENT;
+import static greynekos.greybook.logic.parser.CliSyntax.PREFIX_PRESENT;
 import static greynekos.greybook.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static greynekos.greybook.logic.parser.ParserUtil.MESSAGE_INVALID_PERSON_IDENTIFIER;
 import static greynekos.greybook.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -171,16 +173,15 @@ public class MarkCommandTest {
         assertParseFailure(parser, userInput, MESSAGE_INVALID_PERSON_IDENTIFIER);
     }
 
-    // TODO : Currently ignores extra attendance flags
-    // @Test
-    // public void parse_multipleAttendanceFlags_throwsParseException() {
-    // MarkCommand markCommand = new MarkCommand();
-    // GreyBookParser parser = new GreyBookParser();
-    // markCommand.addToParser(parser);
+    @Test
+    public void parse_multipleAttendanceFlags_throwsParseException() {
+        MarkCommand markCommand = new MarkCommand();
+        GreyBookParser parser = new GreyBookParser();
+        markCommand.addToParser(parser);
 
-    // String userInput = "mark 1 p/ a/";
+        String userInput = "mark 1 p/ a/";
 
-    // assertParseFailure(parser, userInput,
-    // String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-    // }
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForMutuallyExclusivePrefixes(PREFIX_PRESENT, PREFIX_ABSENT));
+    }
 }

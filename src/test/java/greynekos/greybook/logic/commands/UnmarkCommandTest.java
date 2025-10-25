@@ -72,41 +72,37 @@ public class UnmarkCommandTest {
         assertCommandSuccess(unmarkCommand, model, arg, expectedMessage, expectedModel);
     }
 
-    // TODO: Need to edit tesr case expected output
-    // @Test
-    // public void execute_unmarkAll_success() throws Exception {
-    // UnmarkCommand unmarkCommand = new UnmarkCommand();
-    // GreyBookParser parser = new GreyBookParser();
-    // unmarkCommand.addToParser(parser);
+    @Test
+    public void execute_unmarkAll_success() throws Exception {
+        UnmarkCommand unmarkCommand = new UnmarkCommand();
+        GreyBookParser parser = new GreyBookParser();
+        unmarkCommand.addToParser(parser);
 
-    // String userInput = "unmark all";
-    // ArgumentParseResult arg = parser.parse(userInput);
+        String userInput = "unmark all";
+        ArgumentParseResult arg = parser.parse(userInput);
 
-    // Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new
-    // UserPrefs());
-    // for (Person person : expectedModel.getFilteredPersonList()) {
-    // Person resetPerson = new
-    // PersonBuilder(person).withAttendanceStatus(AttendanceStatus.Status.NONE).build();
-    // expectedModel.setPerson(person, resetPerson);
-    // }
+        Model expectedModel = new ModelManager(new GreyBook(model.getGreyBook()), new UserPrefs());
+        for (Person person : expectedModel.getFilteredPersonList()) {
+            Person resetPerson = new PersonBuilder(person).withAttendanceStatus(AttendanceStatus.Status.NONE).build();
+            expectedModel.setPerson(person, resetPerson);
+        }
 
-    // assertCommandSuccess(unmarkCommand, model, arg,
-    // UnmarkCommand.MESSAGE_UNMARK_ALL_SUCCESS, expectedModel);
-    // }
+        assertCommandSuccess(unmarkCommand, model, arg, UnmarkCommand.MESSAGE_UNMARK_ALL_SUCCESS, expectedModel);
+    }
 
-    // @Test
-    // public void execute_unmarkAllEmptyList_success() throws Exception {
-    // Model emptyModel = new ModelManager(new GreyBook(), new UserPrefs());
-    // UnmarkCommand unmarkCommand = new UnmarkCommand();
-    // GreyBookParser parser = new GreyBookParser();
-    // unmarkCommand.addToParser(parser);
+    @Test
+    public void execute_unmarkAllEmptyList_success() throws Exception {
+        Model emptyModel = new ModelManager(new GreyBook(), new UserPrefs());
+        UnmarkCommand unmarkCommand = new UnmarkCommand();
+        GreyBookParser parser = new GreyBookParser();
+        unmarkCommand.addToParser(parser);
 
-    // String userInput = "unmark all";
-    // ArgumentParseResult arg = parser.parse(userInput);
+        String userInput = "unmark all";
+        ArgumentParseResult arg = parser.parse(userInput);
 
-    // assertCommandSuccess(unmarkCommand, emptyModel, arg,
-    // String.format(UnmarkCommand.MESSAGE_UNMARK_ALL_SUCCESS), emptyModel);
-    // }
+        assertCommandSuccess(unmarkCommand, emptyModel, arg, String.format(UnmarkCommand.MESSAGE_UNMARK_ALL_SUCCESS),
+                emptyModel);
+    }
 
     @Test
     public void execute_invalidIndex_throwsCommandException() throws Exception {

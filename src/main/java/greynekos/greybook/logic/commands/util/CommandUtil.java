@@ -34,10 +34,11 @@ public class CommandUtil {
     public static Person resolvePerson(Model model, PersonIdentifier identifier) throws CommandException {
         if (identifier instanceof Index) {
             return findPersonByIndex(model, (Index) identifier);
-        } else {
+        } else if (identifier instanceof StudentID) {
             model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
             return findPersonByStudentId(model, (StudentID) identifier);
         }
+        throw new CommandException("Invalid person identifier");
     }
 
     /**

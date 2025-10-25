@@ -94,9 +94,8 @@ public class ArgumentMultimap {
      *             if more than one of the specified prefixes has been provided
      */
     public void verifyNoMutuallyExclusivePrefixesFor(Prefix... prefixes) throws ParseException {
-        Prefix[] mutuallyExclusivePrefixes = Stream.of(prefixes).distinct()
-                .filter(prefix -> argMultimap.containsKey(prefix) && argMultimap.get(prefix).size() > 1)
-                .toArray(Prefix[]::new);
+        Prefix[] mutuallyExclusivePrefixes =
+                Stream.of(prefixes).distinct().filter(prefix -> argMultimap.containsKey(prefix)).toArray(Prefix[]::new);
 
         if (mutuallyExclusivePrefixes.length > 1) {
             throw new ParseException(Messages.getErrorMessageForMutuallyExclusivePrefixes(mutuallyExclusivePrefixes));
