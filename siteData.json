@@ -71,7 +71,8 @@
         "2-confirmation-dialog-for-clear-command": "2. Confirmation dialog for clear command",
         "3-more-robust-checking-for-phone-numbers": "3. More robust checking for phone numbers",
         "4-more-robust-duplicate-checking": "4. More robust duplicate checking",
-        "5-stricter-command-argument-validation": "5. Stricter command argument validation"
+        "5-stricter-command-argument-validation": "5. Stricter command argument validation",
+        "6-command-argument-validation-involving-quotation-marks": "6. Command argument validation involving quotation marks"
       },
       "headingKeywords": {}
     },
